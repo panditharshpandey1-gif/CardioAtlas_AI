@@ -1,0 +1,25 @@
+{
+  "name": "cardio-atlas-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cardio Atlas AI - Immersive Cardiovascular Research Workstation",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "pip install -r backend/requirements.txt && npm --prefix frontend install",
+    "dev": "python run.py",
+    "start": "python run.py",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint"
+  },
+  "keywords": [
+    "cardiology",
+    "machine-learning",
+    "fastapi",
+    "react",
+    "threejs"
+  ],
+  "author": "CardioVision AI",
+  "license": "MIT"
+}

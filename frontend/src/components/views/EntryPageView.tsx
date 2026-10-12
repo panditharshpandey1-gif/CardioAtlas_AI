@@ -1,0 +1,47 @@
+import { useState } from 'react';
+import { Activity, ArrowDown, ArrowRight, ArrowUpRight, Database, Fingerprint, HeartPulse, Layers3, Menu, MoveUpRight, Orbit, ScanHeart, ShieldCheck, SlidersHorizontal, Sparkles, X } from 'lucide-react';
+import type { NavigationTab, PatientProfile } from '../../types/cardio';
+import { HeroHeartViewer } from '../heart/HeroHeartViewer';
+
+interface Props {
+  patients: PatientProfile[];
+  currentPatient: PatientProfile | null;
+  backendOnline: boolean;
+  onEnterWorkstation: (tab?: NavigationTab) => void;
+  onSelectPatientAndEnter: (patient: PatientProfile, tab?: NavigationTab) => void;
+}
+const modules = [
+  {id:'01',label:'Risk intelligence',icon:Activity,text:'Understand how 13 clinical features contribute to a research model score.',tab:'assessment' as NavigationTab},
+  {id:'02',label:'The anatomy lab',icon:ScanHeart,text:'Move beyond flat diagrams with immersive 3D heart anatomy and X-ray view.',tab:'heart' as NavigationTab},
+  {id:'03',label:'Explain the outcome',icon:Fingerprint,text:'See the drivers behind every prediction with interpretable factors.',tab:'explainability' as NavigationTab},
+  {id:'04',label:'Simulate a change',icon:SlidersHorizontal,text:'Explore how different inputs change the model score, side-by-side.',tab:'whatif' as NavigationTab},
+];
+export function EntryPageView({ patients, currentPatient, backendOnline, onEnterWorkstation, onSelectPatientAndEnter }:Props) {
+  const [menuOpen,setMenuOpen]=useState(false);
+  const [caseId,setCaseId]=useState(currentPatient?.id ?? patients[0]?.id ?? '');
+  const selected = patients.find(p=>p.id===caseId) ?? patients[0];
+  const go=(tab:NavigationTab='overview')=>{setMenuOpen(false);onEnterWorkstation(tab)};
+  return <div className="atlas-landing">
+    <div className="atlas-top-strip"><span><i/> INDEPENDENT RESEARCH ENVIRONMENT</span><span>UCI CLEVELAND DATASET / 303 RECORDS <ArrowUpRight size={13}/></span></div>
+    <header className="atlas-landing-nav">
+      <button type="button" className="atlas-wordmark" onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}><span className="atlas-mark"><HeartPulse size={22}/></span><span>cardio<span className="wordmark-light">atlas</span><b>.</b></span><small>AI</small></button>
+      <nav className={menuOpen?'atlas-navlinks open':'atlas-navlinks'}><a href="#capabilities" onClick={()=>setMenuOpen(false)}>Capabilities</a><a href="#experience" onClick={()=>setMenuOpen(false)}>Experience</a><a href="#cases" onClick={()=>setMenuOpen(false)}>Sample cases</a><button type="button" onClick={()=>go('datasets')}>The dataset</button></nav>
+      <div className="atlas-nav-end"><span className="atlas-live"><i className={backendOnline?'on':''}/>{backendOnline?'API LIVE':'LOCAL DEMO'}</span><button type="button" className="atlas-nav-cta" onClick={()=>go()}>Open console <ArrowUpRight size={16}/></button><button className="atlas-menu" type="button" aria-label="Toggle menu" onClick={()=>setMenuOpen(!menuOpen)}>{menuOpen?<X/>:<Menu/>}</button></div>
+    </header>
+    <main>
+      <section className="atlas-hero"><div className="atlas-hero-grain"/><div className="atlas-hero-content">
+        <div className="atlas-hero-copy"><div className="atlas-section-tag"><span className="tag-icon"><Sparkles size={13}/></span> HUMAN HEART. MACHINE INTELLIGENCE. <span className="tag-line"/></div>
+          <h1>Go beyond<br/>the <em>heartbeat.</em></h1>
+          <p className="atlas-hero-intro">A new dimension in cardiovascular exploration. Visualize the anatomy. Decode your model. Discover the <strong>story behind the signal.</strong></p>
+          <div className="atlas-hero-buttons"><button type="button" className="atlas-button primary" onClick={()=>go()}>Enter the experience <ArrowUpRight size={20}/></button><button type="button" className="atlas-button ghost" onClick={()=>go('heart')}><span className="atlas-play"><Orbit size={20}/></span> Explore 3D anatomy</button></div>
+          <div className="atlas-hero-micro"><span><ShieldCheck size={16}/> Research & education only</span><span className="micro-divider"/><span>Powered by real UCI data</span></div>
+        </div>
+        <div className="atlas-hero-stage"><div className="atlas-orbit-ring a"/><div className="atlas-orbit-ring b"/><div className="atlas-orbit-ring c"/><div className="atlas-stage-top"><span><i/> ANATOMICAL OBSERVATORY</span><span>FIG. 001—HUMAN HEART</span></div><div className="atlas-heart"><HeroHeartViewer/></div><div className="atlas-heart-caption caption-left"><span className="atlas-caption-index">01 / EXPLORATION</span><strong>Real form.<br/>New perspective.</strong><small>Drag to rotate • Scroll to zoom</small></div><div className="atlas-heart-caption caption-right"><Layers3 size={17}/><span>INTERACTIVE<br/>3D MODEL</span></div><div className="atlas-stage-bottom"><span className="signal-dot"/> <span>ANATOMY REFERENCE • NOT A PATIENT SCAN</span><span>360° VIEW</span></div></div>
+      </div><div className="atlas-hero-footer"><span>THE CARDIO ATLAS EXPERIENCE <ArrowDown size={17}/></span><div><strong>13</strong><small>Biomarkers</small></div><div><strong>03</strong><small>Model families</small></div><div><strong>3D</strong><small>Heart explorer</small></div><div><strong>01</strong><small>Unified workspace</small></div></div></section>
+      <section className="atlas-modules" id="capabilities"><div className="atlas-container"><div className="atlas-section-heading"><div><span className="atlas-overline">01 — THE CAPABILITIES</span><h2>See the whole picture.<br/><em>Not just the number.</em></h2></div><p>Four different perspectives. One connected workspace. Built to make cardiovascular machine learning more transparent, visual and explorable.</p></div><div className="atlas-module-grid">{modules.map(mod=>{const Icon=mod.icon;return <button type="button" key={mod.id} onClick={()=>go(mod.tab)} className="atlas-module"><div className="atlas-module-head"><span>{mod.id} / 04</span><MoveUpRight size={18}/></div><div className="atlas-module-icon"><Icon size={30} strokeWidth={1.4}/></div><h3>{mod.label}</h3><p>{mod.text}</p><span className="atlas-module-footer">Open module <ArrowRight size={16}/></span></button>})}</div></div></section>
+      <section className="atlas-experience" id="experience"><div className="atlas-container atlas-experience-layout"><div><span className="atlas-overline">02 — DESIGNED TO DISCOVER</span><h2>Intelligence with<br/><em>nothing to hide.</em></h2><p>From patient variables to comparative experiments: the platform keeps model evidence visible alongside the result. Every screen is built around curiosity, not black boxes.</p><button type="button" className="atlas-button primary" onClick={()=>go('explainability')}>Explore explainable AI <ArrowUpRight size={18}/></button></div><div className="atlas-process"><span className="atlas-process-head">THE ANALYSIS PIPELINE <span>LIVE WORKFLOW</span></span>{[['01','INPUT','Load a cohort record or supply your own values'],['02','EVALUATE','Calculate a classification score using the backend'],['03','INTERPRET','Inspect feature contributions and model agreement'],['04','EXPLORE','Open the heart viewer or test a different scenario']].map(([n,l,d])=><div className="atlas-process-row" key={n}><span>{n}</span><div><strong>{l}</strong><small>{d}</small></div><ArrowUpRight size={17}/></div>)}<div className="atlas-process-end"><Activity size={19}/> DATA → MODELS → EXPLANATIONS → EXPLORATION</div></div></div></section>
+      <section className="atlas-cases" id="cases"><div className="atlas-container atlas-cases-layout"><div><span className="atlas-overline">03 — STEP INSIDE</span><h2>Make it real.<br/><em>Start with a case.</em></h2><p>Choose one of the held-out demonstration records from the historical Cleveland dataset. Open the complete patient workspace with one click.</p><span className="atlas-case-note"><ShieldCheck size={16}/> Anonymous research data • Not patient care</span></div><div className="atlas-case-card"><div className="atlas-case-card-head"><span><Database size={17}/> DEMO DATASET</span><b>{patients.length} CASES AVAILABLE</b></div><div className="atlas-case-list">{patients.slice(0,5).map((p,i)=><button type="button" key={p.id} className={selected?.id===p.id?'atlas-case-item selected':'atlas-case-item'} onClick={()=>setCaseId(p.id)}><span className="atlas-case-num">0{i+1}</span><span><strong>{p.name}</strong><small>{p.data.age} YEARS / {p.data.sex===1?'MALE':'FEMALE'} / CLEVELAND</small></span><span className="atlas-case-radio"/></button>)}</div><button className="atlas-case-open" type="button" disabled={!selected} onClick={()=>selected&&onSelectPatientAndEnter(selected,'overview')}>Launch selected case <ArrowUpRight size={20}/></button></div></div></section>
+      <section className="atlas-last"><div className="atlas-container"><span className="atlas-overline">YOUR NEXT PERSPECTIVE STARTS HERE</span><h2>See what the data<br/><em>has to say.</em></h2><div><button className="atlas-button primary" type="button" onClick={()=>go()}>Launch Cardio Atlas <ArrowUpRight size={19}/></button><button className="atlas-button ghost" type="button" onClick={()=>go('datasets')}><Database size={18}/> Download the dataset</button></div></div></section>
+    </main><footer className="atlas-footer"><span><HeartPulse size={17}/> CARDIO ATLAS / AI RESEARCH</span><span>UCI Heart Disease · CC BY 4.0 · Research demonstration only</span><span>2026 / A NEW PERSPECTIVE</span></footer>
+  </div>
+}

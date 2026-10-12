@@ -1,0 +1,20 @@
+{
+  "source": "UCI original heart disease processed site cohorts",
+  "model": "Frozen, calibrated Cleveland-trained equal-weight ensemble",
+  "status": "incomplete",
+  "disclaimer": "Research domain-shift audit only; historical site data with high missingness and possible coding differences. Not prospective or clinical validation.",
+  "sites": {
+    "Hungarian": {
+      "status": "not_evaluated",
+      "reason": "Missing processed.hungarian.data. Supply original UCI file or run with --download."
+    },
+    "Switzerland": {
+      "status": "not_evaluated",
+      "reason": "Missing processed.switzerland.data. Supply original UCI file or run with --download."
+    },
+    "VA Long Beach": {
+      "status": "not_evaluated",
+      "reason": "Missing processed.va.data. Supply original UCI file or run with --download."
+    }
+  }
+}
