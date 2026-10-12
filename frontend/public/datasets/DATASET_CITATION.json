@@ -1,0 +1,11 @@
+{
+  "dataset": "UCI Heart Disease \u2014 Cleveland processed subset",
+  "authors": "Andras Janosi, William Steinbrunn, Matthias Pfisterer, Robert Detrano",
+  "doi": "10.24432/C52P4X",
+  "source": "https://archive.ics.uci.edu/dataset/45/heart+disease",
+  "license": "CC BY 4.0",
+  "rows": 303,
+  "features": 13,
+  "original_file": "backend/data/processed.cleveland.data",
+  "notes": "Research-only historical cohort. Original coding preserved in uci_cleveland_original.csv; app mappings and binary target in cardiovision_model_ready.csv. Empty cells are original '?' missing values. These are NOT validated clinical risk or individual medical data."
+}
